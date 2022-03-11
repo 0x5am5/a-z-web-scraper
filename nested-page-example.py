@@ -61,68 +61,68 @@ if scrapedWordArr.count:
     dict_writer.writerows(scrapedWordArr)
 
   # Writing to google sheets
-  print('Connecting to Google Sheets...')
+  # print('Connecting to Google Sheets...')
   
-  google_sheets = GoogleSheets()
+  # google_sheets = GoogleSheets()
 
-  # Getting list of pre-scraped words
-  spreadsheetWordList = google_sheets.get_words()
+  # # Getting list of pre-scraped words
+  # spreadsheetWordList = google_sheets.get_words()
 
-  # Create seperate lists to differentiate between updating and appending
-  addList = []
-  updateList = []
+  # # Create seperate lists to differentiate between updating and appending
+  # addList = []
+  # updateList = []
   
-  # Loop through every scraped word
-  for i in range(len(scrapedWordArr)):
-    currentWord = scrapedWordArr[i]
-    print('Checking ' + str(currentWord.get('term')))
-    found = False
+  # # Loop through every scraped word
+  # for i in range(len(scrapedWordArr)):
+  #   currentWord = scrapedWordArr[i]
+  #   print('Checking ' + str(currentWord.get('term')))
+  #   found = False
 
-    # Loop through every word in spreadsheet and check against current word
-    for j in range(len(spreadsheetWordList)):
-      currentSpreadsheetWord = spreadsheetWordList[j]
+  #   # Loop through every word in spreadsheet and check against current word
+  #   for j in range(len(spreadsheetWordList)):
+  #     currentSpreadsheetWord = spreadsheetWordList[j]
 
-      # if word exists, then we just want to update (optional)
-      if currentSpreadsheetWord[0].lower() == currentWord.get('term').lower():
-        found = True
+  #     # if word exists, then we just want to update (optional)
+  #     if currentSpreadsheetWord[0].lower() == currentWord.get('term').lower():
+  #       found = True
 
-        # update according to your spreadsheet. Uses the batchUpdate method (https://developers.google.com/sheets/api/guides/batchupdate)
-        updateList.append({
-          "range": 'D' + str(j + 2) + ':H',
-          "majorDimension": "ROWS",
-          "values": [[
-            None, # Project manangemn
-            None, # Dev
-            True, # Agile
-            None, # startup
-            None, # design
-          ]]
-        })
-        print(currentWord.get('term') +  ' already exists!')
-        break
+  #       # update according to your spreadsheet. Uses the batchUpdate method (https://developers.google.com/sheets/api/guides/batchupdate)
+  #       updateList.append({
+  #         "range": 'D' + str(j + 2) + ':H',
+  #         "majorDimension": "ROWS",
+  #         "values": [[
+  #           None, # Project manangemn
+  #           None, # Dev
+  #           True, # Agile
+  #           None, # startup
+  #           None, # design
+  #         ]]
+  #       })
+  #       print(currentWord.get('term') +  ' already exists!')
+  #       break
 
-      # If it doesn't exist, then we want to add it
-    if not found:
-      print('Adding ' + currentWord.get('term'))
+  #     # If it doesn't exist, then we want to add it
+  #   if not found:
+  #     print('Adding ' + currentWord.get('term'))
 
-      # update according to your spreadsheet. Uses the batchUpdate append (https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append) - 
-      addList.append([
-        currentWord.get('term'), 
-        currentWord.get('definition'), 
-        'Added with scraper...', 
-        False, # Project management
-        False, # Development
-        True, # Agile
-        False, # Startup
-        False, # Design
-        url
-      ])
+  #     # update according to your spreadsheet. Uses the batchUpdate append (https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append) - 
+  #     addList.append([
+  #       currentWord.get('term'), 
+  #       currentWord.get('definition'), 
+  #       'Added with scraper...', 
+  #       False, # Project management
+  #       False, # Development
+  #       True, # Agile
+  #       False, # Startup
+  #       False, # Design
+  #       url
+  #     ])
 
-  print('Writing to Google Sheets...')
-  if addList:
-    google_sheets.write_to_sheet(addList)
+  # print('Writing to Google Sheets...')
+  # if addList:
+  #   google_sheets.write_to_sheet(addList)
   
-  if updateList:
-    google_sheets.update_sheet(updateList)
+  # if updateList:
+  #   google_sheets.update_sheet(updateList)
 
     
